@@ -47,3 +47,8 @@ In order to create the cluster run:
 If you then want to access ArgoCD via a load balancer you have to then issue:
 
 `kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'`
+
+## Login
+
+Get the password via
+`kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2`

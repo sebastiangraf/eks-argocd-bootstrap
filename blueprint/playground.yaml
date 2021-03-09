@@ -5,7 +5,7 @@ kind: ClusterConfig
 metadata:
   name: eks-playground
   region: eu-west-1
-  version: "1.14"
+  version: "1.18"
 
 
 iam:
@@ -36,7 +36,13 @@ nodeGroups:
     tags:
       k8s.io/cluster-autoscaler/enabled: "1"
       k8s.io/cluster-autoscaler/eks-playground: "1"
-    instanceType: m5.xlarge
+    instanceType: 
     minSize: 1
     maxSize: 5
     # privateNetworking: true
+    instancesDistribution:
+      maxPrice: 0.117
+      instanceTypes: ["m5.xlarge" ] # At least one instance type should be specified
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 50
+      spotInstancePools: 2
