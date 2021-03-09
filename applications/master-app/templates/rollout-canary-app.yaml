@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rollout-canary-app
-  namespace: argocd
+  name: kubernetes-dashboard
+  namespace: dashboard
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://github.com/speedwing/eks-argocd-bootstrap.git
+    repoURL: https://github.com/kubernetes/dashboard.git
     targetRevision: HEAD
-    path: applications/rollout-canary-app
+    path: aio/deploy/helm-chart/kubernetes-dashboard
 
   destination:
-    namespace: production
+    namespace: dashboard
     server: {{ .Values.spec.destination.server }}
 
   syncPolicy:
