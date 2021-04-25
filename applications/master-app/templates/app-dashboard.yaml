@@ -8,12 +8,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/kubernetes/dashboard.git
-    targetRevision: HEAD
-    path: aio/deploy/helm-chart/kubernetes-dashboard
-
+    repoURL: 'https://kubernetes.github.io/dashboard/'
+    targetRevision: 4.0.3
+    chart: kubernetes-dashboard
   destination:
-    namespace: dashboard
+    namespace: dashboard  
     server: {{ .Values.spec.destination.server }}
 
   syncPolicy:
