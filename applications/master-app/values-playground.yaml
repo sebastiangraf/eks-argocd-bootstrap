@@ -3,7 +3,7 @@ cluster:
   awsRegion: "eu-west-1"
   clusterAutoscaler:
     namespace: "kube-system"
-	
+
 spec:
   destination:
     server: https://kubernetes.default.svc
