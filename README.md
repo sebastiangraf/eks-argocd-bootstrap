@@ -30,8 +30,7 @@ The project structure should be similar to this:
 ``` 
 
 The `blueprint` folder contains the specifications for an Eks Cluster.
-The `argocd-bootstrap` folder contains the `kustomization` required to install ArgoCD and bootstrap the cluster. It also
-contains the `master-app.yaml` file that is nothing else than the app-of-apps responsible for installing all the _other_ kubernetes manifests.
+The `argocd-bootstrap` folder contains the `kustomization` required to install ArgoCD and bootstrap the cluster. It also contains the `master-app.yaml` file that is nothing else than the app-of-apps responsible for installing all the _other_ kubernetes manifests.
 `applications` is the folder that contains the `master-app` itself plus all the other apps that you might want to install on your cluster.
 
 ## Creating the cluster
@@ -47,8 +46,13 @@ In order to create the cluster run:
 If you then want to access ArgoCD via a load balancer you have to then issue:
 
 `kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'`
+Find url afterwards via `kubectl get services -n argocd`
+
+or via port forwarding
+`kubectl port-forward svc/argocd-server -n argocd 8080:443` (tested)
+
 
 ## Login
 
-Get the password via
-`kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2`
+Get the password for user admin via
+`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`

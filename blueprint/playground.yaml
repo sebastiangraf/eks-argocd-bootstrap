@@ -3,46 +3,50 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: eks-playground
+  name: argo-playground
   region: eu-west-1
-  version: "1.18"
+  version: "1.19"
 
+managedNodeGroups:
+# `instanceTypes` defaults to [`m5.large`]
+- name: workers
+  spot: true
 
-iam:
-  withOIDC: true
-  serviceAccounts:
-    - metadata:
-        name: cluster-autoscaler-aws-cluster-autoscaler
-        namespace: kube-system
-        labels: {aws-usage: "cluster-ops"}
-      attachPolicy: # inline policy can be defined along with `attachPolicyARNs`
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Action:
-              - "autoscaling:DescribeAutoScalingGroups"
-              - "autoscaling:DescribeAutoScalingInstances"
-              - "autoscaling:DescribeLaunchConfigurations"
-              - "autoscaling:DescribeTags"
-              - "autoscaling:SetDesiredCapacity"
-              - "autoscaling:TerminateInstanceInAutoScalingGroup"
-              - "ec2:DescribeLaunchTemplateVersions"
-            Resource: '*'
+#iam:
+#  withOIDC: true
+#  serviceAccounts:
+#    - metadata:
+#        name: cluster-autoscaler-aws-cluster-autoscaler
+#        namespace: kube-system
+#        labels: {aws-usage: "cluster-ops"}
+#      attachPolicy: # inline policy can be defined along with `attachPolicyARNs`
+#        Version: "2012-10-17"
+#        Statement:
+#          - Effect: Allow
+#            Action:
+#              - "autoscaling:DescribeAutoScalingGroups"
+#              - "autoscaling:DescribeAutoScalingInstances"
+#              - "autoscaling:DescribeLaunchConfigurations"
+#              - "autoscaling:DescribeTags"
+#             - "autoscaling:SetDesiredCapacity"
+#              - "autoscaling:TerminateInstanceInAutoScalingGroup"
+#              - "ec2:DescribeLaunchTemplateVersions"
+#            Resource: '*'
 
-nodeGroups:
-  - name: workers
-    labels:
-      role: workers
-    tags:
-      k8s.io/cluster-autoscaler/enabled: "1"
-      k8s.io/cluster-autoscaler/eks-playground: "1"
-    instanceType: 
-    minSize: 1
-    maxSize: 5
-    # privateNetworking: true
-    instancesDistribution:
-      maxPrice: 0.117
-      instanceTypes: ["m5.xlarge" ] # At least one instance type should be specified
-      onDemandBaseCapacity: 0
-      onDemandPercentageAboveBaseCapacity: 50
-      spotInstancePools: 2
+#nodeGroups:
+#  - name: workers
+#    labels:
+#      role: workers
+#    tags:
+#      k8s.io/cluster-autoscaler/enabled: "1"
+#      k8s.io/cluster-autoscaler/eks-playground: "1"
+#    instanceType: 
+#    minSize: 1
+#    maxSize: 5
+#    # privateNetworking: true
+#    instancesDistribution:
+#      maxPrice: 0.117
+#      instanceTypes: ["m5.xlarge" ] # At least one instance type should be specified
+#      onDemandBaseCapacity: 0
+#      onDemandPercentageAboveBaseCapacity: 50
+#      spotInstancePools: 2
