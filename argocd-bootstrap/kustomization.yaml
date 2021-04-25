@@ -4,4 +4,4 @@ namespace: argocd
 resources:
   - argocd-namespace.yaml
   - argocd-install.yaml
-#  - master-app.yaml
+  - master-app.yaml
